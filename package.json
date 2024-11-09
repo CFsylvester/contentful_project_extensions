@@ -1,0 +1,16 @@
+{
+  "name": "contentful_project_extensions",
+  "private": true,
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:CFsylvester/contentful_project_extensions.git",
+  "author": "Claire Sylvester <clairesylvester@clairecodes.dev>",
+  "license": "MIT",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "upload:contentful": "yarn workspace upload-all run upload"
+  }
+}
