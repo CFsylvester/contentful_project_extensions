@@ -184,18 +184,23 @@ class App extends React.Component {
 
   onClickLinkExisting = async () => {
     if (this.state.linkExistingLoading) return;
-
+  
     this.setState({ linkExistingLoading: true });
     console.log('Opening Native Asset Picker');
+  
+    // Calculate remaining slots based on max assets and current assets count
+    const remainingSlots = this.state.maxAssets - this.state.assets.length;
+  
     try {
       const selectedAssets = await this.props.sdk.dialogs.selectMultipleAssets({
         title: 'Select Assets',
         parameters: {
-          // Optionally, you can specify filters here
           contentType: ['image/jpeg', 'image/png', 'image/gif'] // Adjust as needed
-        }
+        },
+        min: 1,
+        max: remainingSlots // Limit selection to the number of empty slots
       });
-
+  
       if (selectedAssets && selectedAssets.length > 0) {
         const assetIds = selectedAssets.map(asset => asset.sys.id);
         console.log('Selected Asset IDs from Native Picker:', assetIds);
@@ -210,6 +215,7 @@ class App extends React.Component {
       this.setState({ linkExistingLoading: false });
     }
   };
+  
 
   handleAssetSelection = async (selectedAssetIds) => {
     console.log('handleAssetSelection Called with Asset IDs:', selectedAssetIds);
