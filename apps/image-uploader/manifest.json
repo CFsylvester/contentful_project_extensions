@@ -1,0 +1,17 @@
+{
+    "sys": {
+      "id": "image-uploader-app",
+      "type": "App",
+      "version": 1
+    },
+    "name": "Image Uploader App",
+    "src": "",  
+    "locations": [
+      {
+        "location": "entry-field",
+        "fieldTypes": ["Link", "Array"]
+      }
+    ],
+    "parameters": {}
+  }
+  

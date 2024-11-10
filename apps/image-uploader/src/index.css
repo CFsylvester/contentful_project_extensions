@@ -1,40 +1,61 @@
-html,
-body,
-div {
+body {
   margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-  box-sizing: border-box;
-}
-
-* {
-  font-weight: normal;
-  -webkit-font-smoothing: antialiased !important;
-  -moz-font-smoothing: antialiased !important;
-  -moz-osx-font-smoothing: grayscale;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.viewport {
-  position: relative;
-  height: 20rem;
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+/* src/index.css */
+/* src/index.css */
+/* src/index.css */
+/* src/index.css */
+
+/* Existing styles */
+
+/* Adjust UploadView and FileView for better responsiveness */
+.upload-view,
+.file-view {
+  border: 2px dashed #ccc;
+  padding: 40px; /* Increased padding for better visibility */
+  border-radius: 10px; /* Increased border radius */
+  text-align: center;
+  cursor: pointer;
+  width: 100%; /* Ensure it takes available width */
+  min-height: 200px; /* Set a minimum height */
+  position: relative; /* Ensure positioning doesn't interfere */
 }
 
-.viewport.non-image-file {
-  height: 10rem;
+.upload-view button {
+  position: relative; /* Ensure the button is on top */
+  z-index: 1; /* Ensure the button is clickable */
 }
 
-.centered {
+.file-item button:hover {
+  opacity: 0.8;
+}
+
+.spinner.viewport.centered {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .file-view {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .file-item {
+    width: 100%;
+    max-width: 300px;
+  }
 }

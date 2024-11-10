@@ -10,6 +10,10 @@
     "apps/*",
     "packages/*"
   ],
+  "resolutions": {
+    "@contentful/forma-36-fcss": "0.3.5",
+    "@contentful/forma-36-tokens": "0.11.2"
+  },
   "scripts": {
     "upload:contentful": "yarn workspace upload-all run upload"
   }

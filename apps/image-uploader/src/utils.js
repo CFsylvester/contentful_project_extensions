@@ -1,76 +1,71 @@
-/* Takes an HTML5 file, encodes as Base64 data Url,
-   returns a two element list of Base64 Url prefix and
-   raw Base64 data.
+// src/utils.js
 
-   readFileAsUrl(file: HTMLFile): [string, string]
- */
-export function readFileAsUrl(file) {
+export const fetchAssets = async (sdk, query = {}) => {
+  try {
+    const response = await sdk.space.getAssets(query);
+    return response.items;
+  } catch (error) {
+    console.error('Error fetching assets:', error);
+    throw error;
+  }
+};
+
+// Utility function to read file as Base64 URL
+export const readFileAsUrl = (file) => {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader()
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result;
+      const [prefix, data] = result.split(',');
+      resolve([prefix, data]);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+};
 
-    reader.onload = function(e) {
-      resolve(e.target.result.split(","))
+// Utility function to determine content type from image URL
+export const findImageContentType = async (imageUrl) => {
+  try {
+    const response = await fetch(imageUrl, { method: 'HEAD' });
+    const contentType = response.headers.get('Content-Type');
+    return contentType;
+  } catch (error) {
+    console.error('Error fetching content type:', error);
+    throw error;
+  }
+};
+
+// Utility function to extract image URL from data transfer
+export const getImageUrlFromDataTransfer = async (dataTransfer) => {
+  const url = dataTransfer.getData('URL');
+  if (url && /^https?:\/\//.test(url)) {
+    return url;
+  }
+  return null;
+};
+
+// Utility function to extract asset ID from data transfer
+export const getAssetIdFromDataTransfer = (dataTransfer) => {
+  const id = dataTransfer.getData('text/plain');
+  if (id && id.startsWith('asset-')) {
+    return id.replace('asset-', '');
+  }
+  return null;
+};
+
+// Utility function to convert data transfer items to Base64 if they are valid images
+export const getBase64FromDataTransfer = async (dataTransfer) => {
+  const items = dataTransfer.items;
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    if (item.kind === 'file' && /^image\/[\w-_|\w+\w]+$/.test(item.type)) {
+      const file = item.getAsFile();
+      if (file) {
+        const [prefix, data] = await readFileAsUrl(file);
+        return { prefix, data, type: file.type };
+      }
     }
-
-    reader.onerror = function(e) {
-      reject(e.error)
-    }
-
-    reader.onabort = function(e) {
-      reject(new Error("File aborted."))
-    }
-
-    reader.readAsDataURL(file)
-  })
-}
-
-// getImageUrlFromDataTransfer(dataTransfer: DataTransfer): string?
-export function getImageUrlFromDataTransfer(dataTransfer) {
-  const html = dataTransfer.getData("text/html")
-  if (!html) {
-    return
   }
-
-  const frag = document.createElement("main")
-  frag.innerHTML = html
-
-  const img = frag.querySelector("img")
-
-  return (img && img.src) || null
-}
-
-// getAssetIdFromDataTransfer(dataTransfer: DataTransfer): string?
-export function getAssetIdFromDataTransfer(dataTransfer) {
-  const plain = dataTransfer.getData("text/plain")
-  const match = plain.match(/spaces\/\w+\/assets\/(\w+)\/?$/)
-
-  if (!match) {
-    return
-  }
-
-  return match[1]
-}
-
-// getBase64FromDataTransfer(dataTransfer: DataTransfer): [base64Prefix, base64Data]
-export function getBase64FromDataTransfer(dataTransfer) {
-  const src = getImageUrlFromDataTransfer(dataTransfer)
-  if (!/^data:image\/\w+;base64,/.test(src)) {
-    return
-  }
-
-  const parts = src.split(",")
-
-  return {
-    prefix: parts[0],
-    data: parts[1],
-    type: src.split(/:|;/)[1]
-  }
-}
-
-// isImageAsset(asset: AssetEntity, locale: string): boolean
-export function isImageAsset(asset, locale) {
-  return (
-    asset.fields.file[locale] &&
-    /^image\//.test(asset.fields.file[locale].contentType)
-  )
-}
+  return null;
+};

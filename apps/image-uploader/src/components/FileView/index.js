@@ -1,78 +1,219 @@
+// src/components/FileView.js
+
 import React from 'react';
-import { Heading, Button, Paragraph, Asset } from '@contentful/forma-36-react-components';
+import PropTypes from 'prop-types';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { Button, Typography } from '@contentful/forma-36-react-components';
 
-import Dropzone from '../Dropzone';
+const FileView = ({
+  assets,
+  isPublished,
+  onDragEnd,
+  onClickEdit,
+  onClickRemove,
+  remainingSlots,
+  onDropFiles,
+  isDraggingOver,
+  onDragOverStart,
+  onDragOverEnd
+}) => {
+  console.log('FileView Rendered');
 
-import './fileview.css';
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onDragOverStart(e);
+  };
 
-const IMAGE_WRAPPER_SIZE = 320;
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onDragOverEnd(e);
+  };
 
-const headerStyle = {
-  width: `${IMAGE_WRAPPER_SIZE}px`,
-  height: `${IMAGE_WRAPPER_SIZE}px`
-};
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onDragOverStart(e);
+  };
 
-function getImagePreviewUrl(file, { imgWidth, imgHeight }) {
-  if (file.contentType.includes('svg')) {
-    return `${file.url}?fm=png&w=${imgWidth}&h=${imgHeight}`;
-  }
-  return `${file.url}?w=${imgWidth}&h=${imgHeight}`;
-}
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onDropFiles(e);
+    onDragOverEnd(e);
+  };
 
-export default function FileView(props) {
-  const file = props.file;
-  const type = file.contentType.split('/')[0];
-  const prettySize = `${(file.details.size / 1000000).toFixed(2)} MB`;
-  const imgWidth = Math.min(file.details.image.width, IMAGE_WRAPPER_SIZE);
-  const imgHeight = file.details.image.height / (file.details.image.width / imgWidth);
+  const handleFileChange = (e) => {
+    onDropFiles(e);
+  };
 
   return (
-    <Dropzone
-      className={`file-view viewport ${type === 'image' ? 'image-file' : 'non-image-file'}`}
-      isDraggingOver={props.isDraggingOver}
-      onDrop={props.onDropFiles}
-      onDragOverStart={props.onDragOverStart}
-      onDragOverEnd={props.onDragOverEnd}>
-      {type === 'image' ? (
-        <header style={headerStyle}>
-          <img
-            style={{ width: `${imgWidth}px`, height: `${imgHeight}px` }}
-            src={getImagePreviewUrl(file, { imgWidth, imgHeight })}
-            alt="image preview"
-          />
-        </header>
-      ) : (
-        <header>
-          <Asset type={type} className="file-type-icon" />
-        </header>
-      )}
-      <section className="details">
-        <main>
-          <Heading className="filename">{file.fileName}</Heading>
-          {type === 'image' ? (
-            <Paragraph className="row">
-              <strong>Dimensions:</strong> {file.details.image.width}x{file.details.image.height}
-            </Paragraph>
-          ) : null}
-          <Paragraph className="row">
-            <strong>Size:</strong> {prettySize}
-          </Paragraph>
-          <Paragraph className="row">
-            <strong>Type:</strong> {file.contentType}
-          </Paragraph>
-          <Paragraph className="row">
-            <strong>Status:</strong> {props.isPublished ? 'Published' : 'Draft'}
-          </Paragraph>
-        </main>
-        <nav className="buttonset">
-          <Button buttonType="muted" className="button" onClick={props.onClickEdit}>
-            Edit
-          </Button>
-          <Button buttonType="muted" className="button" onClick={props.onClickRemove}>
-            Remove
-          </Button>
-        </nav>
-      </section>
-    </Dropzone>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId="assets-droppable" direction="horizontal">
+        {(provided) => (
+          <div
+            className="file-view"
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '20px',
+              justifyContent: 'flex-start',
+              padding: '20px',
+              position: 'relative'
+            }}
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            {assets.map((asset, index) => (
+              <Draggable key={asset.sys.id} draggableId={asset.sys.id} index={index}>
+                {(provided) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    style={{
+                      position: 'relative',
+                      width: '150px',
+                      height: '150px',
+                      border: '1px solid #ccc',
+                      borderRadius: '8px',
+                      overflow: 'hidden',
+                      boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+                      ...provided.draggableProps.style
+                    }}
+                  >
+                    <div style={{ width: '100%', height: '100px', overflow: 'hidden' }}>
+                      <img
+                        src={`https:${asset.fields.file['en-US'].url}`}
+                        alt={asset.fields.title['en-US'] || asset.fields.file['en-US'].fileName}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    </div>
+                    <div style={{ padding: '8px' }}>
+                      <Typography variant="small">
+                        {asset.fields.title['en-US'] || asset.fields.file['en-US'].fileName}
+                      </Typography>
+                    </div>
+                    <div
+                      style={{
+                        position: 'absolute',
+                        bottom: '5px',
+                        left: '5px',
+                        right: '5px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                        padding: '5px',
+                        borderRadius: '4px'
+                      }}
+                    >
+                      <Button
+                        onClick={() => onClickEdit(asset.sys.id)}
+                        variant="secondary"
+                        size="small"
+                        style={{
+                          padding: '4px 8px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        onClick={() => onClickRemove(asset.sys.id)}
+                        variant="negative"
+                        size="small"
+                        style={{
+                          padding: '4px 8px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: '5px',
+                        right: '5px',
+                        backgroundColor: isPublished ? '#28a745' : '#ffc107',
+                        color: '#fff',
+                        padding: '2px 6px',
+                        borderRadius: '4px',
+                        fontSize: '12px'
+                      }}
+                    >
+                      {isPublished ? 'Published' : 'Unpublished'}
+                    </div>
+                  </div>
+                )}
+              </Draggable>
+            ))}
+
+            {/* Drag-and-Drop Placeholder */}
+            {remainingSlots > 0 && (
+              <div
+                onDragEnter={handleDragEnter}
+                onDragLeave={handleDragLeave}
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
+                className={`upload-placeholder ${isDraggingOver ? 'dragging' : ''}`}
+                style={{
+                  width: '150px',
+                  height: '150px',
+                  border: '2px dashed #ccc',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: isDraggingOver ? '#f0f0f0' : '#fafafa',
+                  cursor: 'pointer'
+                }}
+              >
+                <input
+                  type="file"
+                  multiple
+                  onChange={handleFileChange}
+                  style={{ display: 'none' }}
+                  id="file-upload-placeholder"
+                  disabled={remainingSlots === 0}
+                />
+                <label htmlFor="file-upload-placeholder" style={{ cursor: 'pointer' }}>
+                  <Typography variant="small" color="muted">
+                    Drag & Drop or Click to Add
+                  </Typography>
+                </label>
+              </div>
+            )}
+
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+    </DragDropContext>
   );
-}
+};
+
+FileView.propTypes = {
+  assets: PropTypes.arrayOf(
+    PropTypes.shape({
+      sys: PropTypes.shape({
+        id: PropTypes.string.isRequired
+      }).isRequired,
+      fields: PropTypes.shape({
+        file: PropTypes.object.isRequired
+      }).isRequired
+    })
+  ).isRequired,
+  isPublished: PropTypes.bool.isRequired,
+  onDragEnd: PropTypes.func.isRequired,
+  onClickEdit: PropTypes.func.isRequired,
+  onClickRemove: PropTypes.func.isRequired,
+  remainingSlots: PropTypes.number.isRequired,
+  onDropFiles: PropTypes.func.isRequired,
+  isDraggingOver: PropTypes.bool.isRequired,
+  onDragOverStart: PropTypes.func.isRequired,
+  onDragOverEnd: PropTypes.func.isRequired
+};
+
+export default FileView;

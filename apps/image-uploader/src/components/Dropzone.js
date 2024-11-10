@@ -1,10 +1,10 @@
 import React from "react"
 
 export default class Dropzone extends React.Component {
-  onDragOverStart = event => {
-    prevent(event)
-    this.props.onDragOverStart(event)
-  }
+  onDragOverStart = (event) => {
+    event.preventDefault(); // Allow drop
+    this.setState({ isDraggingOver: true });
+  };
 
   onDragOverEnd = event => {
     prevent(event)
