@@ -1,4 +1,6 @@
 .contentfulrc.json
-apps/image-uploader/node_modules/
+apps/*/node_modules/
 upload-all-apps/node_modules/
 node_modules/
+.env
+.envrc 

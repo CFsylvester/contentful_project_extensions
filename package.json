@@ -1,5 +1,5 @@
 {
-  "name": "contentful_project_extensions",
+  "name": "apps-monorepo",
   "private": true,
   "version": "1.0.0",
   "main": "index.js",
@@ -14,7 +14,28 @@
     "@contentful/forma-36-fcss": "0.3.5",
     "@contentful/forma-36-tokens": "0.11.2"
   },
+  "dependencies": {
+    "@contentful/app-sdk": "^4.29.3",
+    "@contentful/forma-36-fcss": "0.3.5",
+    "@contentful/forma-36-react-components": "^3.100.7",
+    "@contentful/forma-36-tokens": "0.11.2",
+    "core-js": "3",
+    "lucide-react": "^0.456.0",
+    "prop-types": "15.7.2",
+    "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-dom": "^18.2.0",
+    "react-modal": "^3.16.1",
+    "react-scripts": "5.0.1"
+  },
+  "devDependencies": {},
   "scripts": {
-    "upload:contentful": "yarn workspace upload-all run upload"
+    "start:image-uploader": "yarn workspace image-uploader start",
+    "build:image-uploader": "yarn workspace image-uploader build",
+    "deploy:image-uploader": "yarn workspace image-uploader deploy",
+    "upload:contentful": "yarn workspace upload-all-apps run upload",
+    "login": "contentful login",
+    "configure": "contentful space use && contentful space environment use",
+    "logout": "contentful logout"
   }
 }
