@@ -1,0 +1,9 @@
+{
+  "name": "@apps-monorepo/components",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "private": true,
+  "dependencies": {
+    "@apps-monorepo/utils": "*"
+  }
+}

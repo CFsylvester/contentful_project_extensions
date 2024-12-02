@@ -3,46 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@contentful/app-sdk": "^4.29.3",
-    "@contentful/forma-36-fcss": "0.3.5",
-    "@contentful/forma-36-react-components": "^3.100.7",
-    "@contentful/forma-36-tokens": "0.11.2",
-    "core-js": "3",
-    "lucide-react": "^0.456.0",
-    "prop-types": "15.7.2",
-    "react": "^18.2.0",
-    "react-beautiful-dnd": "^13.1.1",
-    "react-dom": "^18.2.0",
-    "react-modal": "^3.16.1",
-    "react-scripts": "5.0.1"
+    "@apps-monorepo/components": "*",
+    "@apps-monorepo/utils": "*"
   },
-  "devDependencies": {},
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "yarn build && echo 'Ready to upload AppBundle to Contentful'",
-    "login": "contentful login",
-    "configure": "contentful space use && contentful space environment use",
-    "logout": "contentful logout"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "deploy": "yarn build && echo 'Ready to upload AppBundle to Contentful'"
   },
   "browserslist": {
     "production": [
-      "last 5 Chrome version",
-      "> 1%",
-      "not ie <= 11"
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
     ],
     "development": [
-      "last 5 Chrome version",
-      "> 1%",
-      "not ie <= 11"
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
     ]
   }
 }
