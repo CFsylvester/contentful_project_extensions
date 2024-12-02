@@ -6,15 +6,14 @@ import ReactDOM from 'react-dom';
 import '@contentful/forma-36-fcss/dist/styles.css';
 import { Spinner, Button, Typography } from '@contentful/forma-36-react-components';
 import { init } from '@contentful/app-sdk';
-import FileView from './components/FileView';
-import ProgressView from './components/ProgressView';
+import { FileView, ProgressView } from '@apps-monorepo/components';
 import {
   readFileAsUrl,
   findImageContentType,
   getImageUrlFromDataTransfer,
   getAssetIdFromDataTransfer,
   getBase64FromDataTransfer
-} from './utils';
+} from '@apps-monorepo/utils';
 
 import './index.css';
 
@@ -648,7 +647,7 @@ class App extends React.Component {
     const isMaxReached = remainingSlots <= 0;
 
     return (
-      <div style={{ padding: '20px' }}>
+      <div>
         {/* Header Section */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', marginBottom: '20px' }}>
           <Button
