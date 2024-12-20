@@ -1,0 +1,19 @@
+{
+    "sys": {
+        "id": "svg-picker-app",
+        "type": "App",
+        "version": 1
+    },
+    "name": "svg picker app",
+    "src": "",
+    "locations": [
+        {
+            "location": "entry-field",
+            "fieldTypes": [
+                "Link",
+                "Array"
+            ]
+        }
+    ],
+    "parameters": {}
+}
