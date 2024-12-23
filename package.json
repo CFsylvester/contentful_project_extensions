@@ -16,9 +16,11 @@
   },
   "dependencies": {
     "@contentful/app-sdk": "^4.29.3",
+    "@contentful/f36-components": "^4.75.2",
     "@contentful/forma-36-fcss": "0.3.5",
     "@contentful/forma-36-react-components": "^3.100.7",
     "@contentful/forma-36-tokens": "0.11.2",
+    "@contentful/react-apps-toolkit": "^1.2.16",
     "core-js": "3",
     "lucide-react": "^0.456.0",
     "prop-types": "15.7.2",
@@ -30,6 +32,9 @@
   },
   "devDependencies": {},
   "scripts": {
+    "start:svg-picker": "yarn workspace svg-picker start",
+    "build:svg-picker": "yarn workspace svg-picker build",
+    "deploy:svg-picker": "yarn workspace svg-picker deploy",
     "start:image-uploader": "yarn workspace image-uploader start",
     "build:image-uploader": "yarn workspace image-uploader build",
     "deploy:image-uploader": "yarn workspace image-uploader deploy",

@@ -1,19 +1,30 @@
 {
-    "sys": {
-        "id": "svg-picker-app",
-        "type": "App",
-        "version": 1
-    },
-    "name": "svg picker app",
-    "src": "",
-    "locations": [
-        {
-            "location": "entry-field",
-            "fieldTypes": [
-                "Link",
-                "Array"
-            ]
+  "name": "svg-picker",
+  "src": "http://localhost:3000",
+  "locations": [
+    {
+      "location": "entry-field",
+      "fieldTypes": ["Symbol"]
+    }
+  ],
+  "scopes": [
+    "read:entries",
+    "read:assets",
+    "read:tags",
+    "manage:app_parameters"
+  ],
+  "parameters": {
+    "instance": [
+      {
+        "id": "svgGroup",
+        "type": "Symbol",
+        "name": "Svg Group",
+        "description": "Select a tag group for SVGs.",
+        "required": true,
+        "controls": {
+          "widget": "dropdown"
         }
-    ],
-    "parameters": {}
+      }
+    ]
+  }
 }
