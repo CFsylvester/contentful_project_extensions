@@ -25,9 +25,6 @@ const App = () => {
 
     const initialize = async () => {
       try {
-        console.log('SDK Object:', sdk);
-        console.log('SDK Space Object:', sdk.space); // Debugging
-
         if (!sdk) {
           throw new Error('SDK not initialized');
         }

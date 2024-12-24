@@ -16,6 +16,13 @@
   "parameters": {
     "instance": [
       {
+        "id": "enableTextSearch",
+        "type": "Boolean",
+        "name": "Enable Text Search",
+        "description": "Toggle to enable or disable text search functionality.",
+        "required": false
+      },  
+      {
         "id": "svgGroup",
         "type": "Symbol",
         "name": "Svg Group",
