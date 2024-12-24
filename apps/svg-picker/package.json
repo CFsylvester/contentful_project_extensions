@@ -6,6 +6,8 @@
       "@apps-monorepo/components": "*",
       "@apps-monorepo/utils": "*"
     },
+    "homepage": ".", 
+
     "scripts": {
       "start": "react-scripts start",
       "build": "react-scripts build",

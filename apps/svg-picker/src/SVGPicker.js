@@ -65,7 +65,7 @@ const SVGPicker = () => {
         <div className="svg-picker-container">
             {/* Header */}
             <div className="svg-picker-header">
-                <img src="/images/logo.svg" alt="Brand Logo" className="svg-picker-logo" />
+                <img src="./images/logo.svg" alt="Brand Logo" className="svg-picker-logo" />
                 <div>
                 <Typography className="svg-picker-title">Svg Selector</Typography>
                 <Typography className="svg-picker-subtitle"><br/> {groupName} Icons</Typography>

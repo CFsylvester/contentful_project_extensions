@@ -1,6 +1,5 @@
 {
   "name": "svg-picker",
-  "src": "http://localhost:3000",
   "locations": [
     {
       "location": "entry-field",
@@ -15,13 +14,6 @@
   ],
   "parameters": {
     "instance": [
-      {
-        "id": "enableTextSearch",
-        "type": "Boolean",
-        "name": "Enable Text Search",
-        "description": "Toggle to enable or disable text search functionality.",
-        "required": false
-      },  
       {
         "id": "svgGroup",
         "type": "Symbol",
